@@ -39,7 +39,7 @@ II. Migrate applications onto cluster
 III. Setup pipeline and tools support
     1. Setup CI
         a. Create project Shopa on SonarQube, Integrate SonarQube With Jenkins
-        b. Create pipeline on jenkins use Jenkinsfile Corresponding environment ( ./jenkins/<env>/Jenkinsfile)
+        b. Create pipeline on jenkins use Jenkinsfile Corresponding environment ( ./CI-CD/jenkins/<env>/Jenkinsfile)
         c. Add credential github, Harbor
         d. Add lack Notification Plugin
 

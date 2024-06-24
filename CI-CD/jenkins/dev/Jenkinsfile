@@ -1,0 +1,68 @@
+//Jenkins for CI
+pipeline {
+  agent any
+  triggers {
+         pollSCM('* * * * *')
+  }
+
+  stages {
+    stage('Cloning Git') {
+        steps {
+             git branch: 'dev', credentialsId: 'ShopA', poll: false, url: 'https://github.com/vuongpham30/ShopA.git'
+        }
+    }
+
+    stage('Buil and push image to registry') {
+        steps {
+             sh "docker buil -t harbor.shopa.vn/shopa-dev/shopa-image:latest ."
+             sh "docker tag harbor.shopa.vn/shopa-dev/shopa-image:latest harbor.shopa.vn/shopa-dev/shopa-image:${BUILD_NUMBER} "
+             sh "docker push harbor.shopa.vn/shopa-dev/shopa-image:${BUILD_NUMBER} "
+             sh "docker rmi harbor.shopa.vn/shopa-dev/shopa-image:${BUILD_NUMBER} "
+             sh "docker rmi harbor.shopa.vn/shopa-dev/shopa-image:latest "
+        }
+    }
+
+    stage('SonarQubeScanner') {
+    //We have to setup Sonar tool on jenkins before
+      steps {
+        script {
+          scannerHome = tool 'SonarQubeScanner'
+        }
+      withSonarQubeEnv('sonar') {
+          sh "${scannerHome}/bin/sonar-scanner \
+              -Dsonar.projectKey=shopa \
+              -Dsonar.sources=. \
+              -Dsonar.host.url=https://sonarqube.shopa.vn "
+
+      }
+    } 
+  }
+
+    stage('Change tag to file config') {
+        steps {
+             sh """
+             git clone -b dev https://github.com/vuongpham30/Shopa-deployment.git
+             cd Shopa-deployment
+             sed -i "s|image: harbor.shopa.vn/shopa-dev/shopa-image:[^ ]*|harbor.shopa.vn/shopa-dev/shopa-image:${BUILD_NUMBER}|" dev/app-deploy.yaml
+             git add .
+             git commit -m"update new version ${BUILD_NUMBER}"
+             
+             git push https://github.com/vuongpham30/Shopa-deployment.git dev
+             
+             cd
+             rm -rf Shopa-deployment
+            
+             """
+
+        }
+    }
+
+    post {
+        always {
+            slackSend channel: 'CI-CD Shopa',
+            message: "DEV - Create and update image :  harbor.shopa.vn/shopa-dev/shopa-image:${BUILD_NUMBER} "
+        }
+    }
+
+}
+}

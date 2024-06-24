@@ -1,0 +1,25 @@
+1. Install argocd cli
+    brew install argocd
+
+2.login to argocd
+    argocd login argocd.shopa.vn
+
+
+3. Add context clusters to file .kube/config
+
+4. Connect argocd to github repo
+
+5. Add new cluster to argocd
+    argocd cluster add <context new cluster>
+    Ex:
+    https://kubernetes-dev.shopa.vn for dev
+    https://kubernetes-staging.shopa.vn for staging
+    https://kubernetes-prod.shopa.vn for prod
+
+6. Create project
+    argocd proj create shopa-dev -d https://kubernetes-dev.shopa.vn,* -s https://github.com/vuongpham30/Shopa-deployment.git
+    argocd proj create shopa-staging -d https://kubernetes-staging.shopa.vn,* -s https://github.com/vuongpham30/Shopa-deployment.git
+    argocd proj create shopa-prod -d https://kubernetes-prod.shopa.vn,* -s https://github.com/vuongpham30/Shopa-deployment.git
+
+7. ArgoCD Notifications & Slack Integration
+    https://argocd-notifications.readthedocs.io/en/stable/services/slack/

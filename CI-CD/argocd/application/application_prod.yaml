@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: shopa-prod
+  namespace: argocd
+spec:
+  destination:
+    namespace: argocd
+    server: https://kubernetes-prod.shopa.vn
+  project: shopa-prod
+  source:
+    path: "pro"
+    repoURL: https://github.com/vuongpham30/Shopa-deployment.git
+    targetRevision: main

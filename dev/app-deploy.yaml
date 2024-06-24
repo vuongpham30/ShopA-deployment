@@ -1,0 +1,67 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shopa
+  namespace: shopa
+spec:
+  selector:
+    matchLabels:
+      app: shopa
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: shopa
+    spec:
+      containers:
+      - image: harbor.vn/shopa-dev/shopa-image:latest
+        name: shopa
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: harbor-secret-registry 
+        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shopa
+  namespace: shopa
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+  type: ClusterIP
+  selector:
+    app: shopa
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: shopa
+  namespace: shopa
+  annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+spec:
+  ingressClassName: nginx 
+  rules:
+  - host: shopa-dev.vn
+    http:
+      paths:
+      - backend:
+          service:
+            name: shopa
+            port:
+              number: 8080
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - dev.shopa.vn
+    secretName: nginx-tls
+
+
+    

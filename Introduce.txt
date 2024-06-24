@@ -1,6 +1,6 @@
 SHOPA OVERVIEW
 
-I. Components
+I. Assume that we already have components bellow
     - Jenkins
         ci.shopa.vn
             Plugins: sonarqube

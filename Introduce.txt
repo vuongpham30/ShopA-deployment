@@ -2,7 +2,7 @@ SHOPA OVERVIEW
 
 I. Components
     - Jenkins
-        cd.shopa.vn
+        ci.shopa.vn
             Plugins: sonarqube
     - Sonarqube
         sonarqube.shopa.vn

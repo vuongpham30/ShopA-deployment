@@ -32,10 +32,9 @@ II. Migrate applications onto cluster
     1. Analyze and evaluate whether the application/service is compatible with Kubernetes
     2. Identify the components that will be used in the cluster 
     3. Calculate operational costs
-    4. Convert the applications/services to images (containerization)
-    5. Gradually deploy to Kubernetes and use supporting tools for deployment (CSI, NFS, ingress,...)
-    6. Integrate CI/CD pipeline
-    7. Tracking the stability of the system and plan to redirect traffic to cluster.
+    4. Gradually deploy to Kubernetes and use supporting tools for deployment (CSI, NFS, ingress,...)
+    5. Integrate CI/CD pipeline
+    6. Tracking the stability of the system and plan to redirect traffic to cluster. (config ANB or NLB)
 
 III. Setup pipeline and tools support
     1. Setup CI

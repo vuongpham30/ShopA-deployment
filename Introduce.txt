@@ -1,4 +1,4 @@
-SHOPA
+SHOPA OVERVIEW
 
 I. Components
     - Jenkins

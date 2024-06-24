@@ -9,6 +9,7 @@ I. Components
     - Argocd
         argocd.shopa.vn
     - K8s
+        Configure Autoscaling on all clsuter 
         DEV:     https://kubernetes-dev.shopa.vn
         PROD:    https://kubernetes-dev.shopa.vn
         STAGING: https://kubernetes-dev.shopa.vn
@@ -27,7 +28,16 @@ I. Components
         Lends - Kubernetes IDE
         EFK - Get logs k8s
 
-II. Setup pipeline and tools support
+II. Migrate applications onto cluster
+    1. Analyze and evaluate whether the application/service is compatible with Kubernetes
+    2. Identify the components that will be used in the cluster 
+    3. Calculate operational costs
+    4. Convert the applications/services to images (containerization)
+    5. Gradually deploy to Kubernetes and use supporting tools for deployment (CSI, NFS, ingress,...)
+    6. Integrate CI/CD pipeline
+    7. Tracking the stability of the system and plan to redirect traffic to cluster.
+
+III. Setup pipeline and tools support
     1. Setup CI
         a. Create project Shopa on SonarQube, Integrate SonarQube With Jenkins
         b. Create pipeline on jenkins use Jenkinsfile Corresponding environment ( ./jenkins/<env>/Jenkinsfile)
@@ -41,14 +51,15 @@ II. Setup pipeline and tools support
         d. Connect argocd to github repo
         e. Add new cluster to argocd
         f. Create project
-        g. Deploy application for each environment (./application/application_<env>)
+        g. Deploy application for each environment (./application/application_<env> or we can using kustomize)
         h. ArgoCD Notifications & Slack Integration
+        * Using feature "rolling update" to ensure no downtime deployment
 
-III. Monitor system
+IV. Monitor system
     1. Setup Prometheus/grafana for each clusters
     2. Setup EFK for each clusters
 
-IV. Workflow
+V. Workflow
     1.Change source code 
         Developers push code to github
         When developer changes any source code the CI jenkins jobs trigger .
@@ -56,14 +67,17 @@ IV. Workflow
         - Download code from the github repository
         - Buil the code into a Docker image
         - Push the docker image to the Harbor registry
+        - Notify status of pipeline to slack channel 
 
-    2. Update deployment config
+    2. Update deployment config ( refe ci-cd.png)
         Jenkins update application version information to application deployment configuration files stored in the config repo (app-deploy.yaml)
         The argoCD will perform the  following  steps:
         - ArgoCD will watch the repository for changes.
             Staging & dev
              - When a change detected, ArgoCD will  compare the current state of the application in Kubernetes   with the desired state defined in the repository
-            - If there is a discrepancy, ArgoCD will automatically deploy the necessary changes to bring the application to the desired state.
+             - If there is a discrepancy, ArgoCD will automatically deploy the necessary changes to bring the application to the desired state.
+             - Notify status of pipeline to slack channel 
             Prod
             - All changes in the PROD environment will be performed manually. We will disable the automatic synchronization feature of ArgoCD and the Git repository.
+            - Notify status of pipeline to slack channel 
 

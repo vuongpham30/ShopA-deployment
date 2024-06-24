@@ -12,3 +12,4 @@ spec:
     path: "pro"
     repoURL: https://github.com/vuongpham30/Shopa-deployment.git
     targetRevision: main
+    

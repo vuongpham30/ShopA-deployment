@@ -43,7 +43,7 @@ III. Setup pipeline and tools support
         c. Add credential github, Harbor
         d. Add lack Notification Plugin
 
-    2. Setup CD (./application/setup-cd.txt)
+    2. Setup CD (./CI-CD/argocd/setup-cd.txt)
         a. Install argocd cli
         b. Login to argocd
         c. Add context clusters

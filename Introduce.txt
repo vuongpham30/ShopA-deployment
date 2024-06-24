@@ -22,7 +22,7 @@ I. Assume that we already have components bellow
         https://github.com/vuongpham30/ShopA.git
     - Tools support
         Locust - Load testing
-        Slack  - ArgoCD Notification
+        Slack  - ArgoCD,Jenkins Notification
         Docker scout, Harbor - security vulnerabilities
         Prometheus/grafana - Monitor cluster, trigger node,....
         Lends - Kubernetes IDE

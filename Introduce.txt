@@ -50,7 +50,7 @@ III. Setup pipeline and tools support
         d. Connect argocd to github repo
         e. Add new cluster to argocd
         f. Create project
-        g. Deploy application for each environment (./application/application_<env> or we can using kustomize)
+        g. Deploy application for each environment (./CI-CD/argocd/application/application_<env>.yaml or we can using kustomize)
         h. ArgoCD Notifications & Slack Integration
         * Using feature "rolling update" to ensure no downtime deployment
 

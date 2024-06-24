@@ -41,13 +41,13 @@ pipeline {
     stage('Change tag to file config') {
         steps {
              sh """
-             git clone -b dev https://github.com/vuongpham30/Shopa-deployment.git
+             git clone https://github.com/vuongpham30/Shopa-deployment.git
              cd Shopa-deployment
              sed -i "s|image: harbor.shopa.vn/shopa-dev/shopa-image:[^ ]*|harbor.shopa.vn/shopa-dev/shopa-image:${BUILD_NUMBER}|" dev/app-deploy.yaml
              git add .
              git commit -m"update new version ${BUILD_NUMBER}"
              
-             git push https://github.com/vuongpham30/Shopa-deployment.git dev
+             git push https://github.com/vuongpham30/Shopa-deployment.git
              
              cd
              rm -rf Shopa-deployment

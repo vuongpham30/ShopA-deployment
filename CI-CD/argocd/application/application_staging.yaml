@@ -14,3 +14,4 @@ spec:
     targetRevision: main
   syncPolicy:
     automated: {}
+    
